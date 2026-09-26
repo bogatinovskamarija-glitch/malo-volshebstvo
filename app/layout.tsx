@@ -5,7 +5,7 @@ import { StoryShell } from "./story-shell";
 export const metadata: Metadata = {
   title: { default: "Мало волшебство — приказни на македонски", template: "%s · Мало волшебство" },
   description: "Мала бесплатна библиотека со детски приказни на македонски. За секое детство, каде и да растеме.",
-  robots: { index: false, follow: false },
+  robots: { index: true, follow: true },
   icons: {
     icon: "/favicon.svg",
     shortcut: "/favicon.svg",
