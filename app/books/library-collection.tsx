@@ -28,6 +28,16 @@ function BookCard({ book }: { book: Book }) {
       <div className="book-meta">
         <span>{lang === "mk" ? book.agesLabel : book.agesLabelEn}</span>
       </div>
+      {book.goal && (
+        <div className="book-goal">{book.goal}</div>
+      )}
+      {book.tags && book.tags.length > 0 && (
+        <div className="book-tags">
+          {book.tags.map((tag) => (
+            <span key={tag} className="book-tag">{tag}</span>
+          ))}
+        </div>
+      )}
       <div className="book-caption">
         <span>{lang === "mk" ? book.detail : book.detailEn}</span>
         <ArrowRight size={16} strokeWidth={1.3} />

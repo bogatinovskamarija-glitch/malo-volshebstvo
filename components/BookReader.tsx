@@ -37,8 +37,8 @@ interface FlipAnim {
 
 export function BookReader({ book }: Props) {
   // leftPage=1 → cover alone; leftPage=2,4,6,… → two-page spread (page mode)
-  // spread mode: each page is a full spread, navigate one at a time
-  const isSpread = !!book.spread;
+  // spread mode: each page is a full landscape spread (illustration left + text right)
+  const isSpread = book.spread ?? (book.ageGroup === "0-2");
   const [leftPage, setLeftPage] = useState(1);
   const [flip, setFlip] = useState<FlipAnim>({ active: false, dir: "fwd", prevLeft: 1, prevCover: true });
   const [sparkKey, setSparkKey] = useState(0);
@@ -90,9 +90,14 @@ export function BookReader({ book }: Props) {
   // ── Render helpers ────────────────────────────────────────
 
   function spreadContent(lp: number, cover: boolean) {
-    if (isSpread || cover) return (
+    if (isSpread) return (
+      <div className="reader-full-spread">
+        <img src={pageUrl(lp)} alt={cover ? book.title : `Страница ${lp}`} className="reader-full-spread-img" draggable={false} />
+      </div>
+    );
+    if (cover) return (
       <div className="reader-cover-single">
-        <img src={pageUrl(lp)} alt={cover ? book.title : `Страница ${lp}`} className="reader-cover-img" draggable={false} />
+        <img src={pageUrl(lp)} alt={book.title} className="reader-cover-img" draggable={false} />
       </div>
     );
     const rp = lp + 1;
@@ -108,10 +113,9 @@ export function BookReader({ book }: Props) {
     const { dir, prevLeft: pl, prevCover: pc } = flip;
 
     if (isSpread) {
-      // Spread mode: fade out the whole spread
       return (
-        <div className="reader-cover-single anim-fade">
-          <img src={pageUrl(pl)} className="reader-cover-img" draggable={false} />
+        <div className="reader-full-spread anim-fade">
+          <img src={pageUrl(pl)} className="reader-full-spread-img" draggable={false} />
         </div>
       );
     }
