@@ -36,7 +36,9 @@ interface FlipAnim {
 }
 
 export function BookReader({ book }: Props) {
-  // leftPage=1 → cover alone; leftPage=2,4,6,… → two-page spread
+  // leftPage=1 → cover alone; leftPage=2,4,6,… → two-page spread (page mode)
+  // spread mode: each page is a full spread, navigate one at a time
+  const isSpread = !!book.spread;
   const [leftPage, setLeftPage] = useState(1);
   const [flip, setFlip] = useState<FlipAnim>({ active: false, dir: "fwd", prevLeft: 1, prevCover: true });
   const [sparkKey, setSparkKey] = useState(0);
@@ -45,17 +47,18 @@ export function BookReader({ book }: Props) {
 
   const isCover = leftPage === 1;
   const rightPage = leftPage + 1;
-  const totalViews = 1 + Math.ceil((total - 1) / 2);
-  const currentView = isCover ? 1 : 1 + Math.ceil((leftPage - 1) / 2);
+  const totalViews = isSpread ? total : 1 + Math.ceil((total - 1) / 2);
+  const currentView = isSpread ? leftPage : (isCover ? 1 : 1 + Math.ceil((leftPage - 1) / 2));
 
   const pageUrl = (n: number) => `/books/${book.id}/page-${String(n).padStart(2, "0")}.jpeg`;
 
   // Preload adjacent pages
   useEffect(() => {
     const pre = (n: number) => { if (n >= 1 && n <= total) { new Image().src = pageUrl(n); } };
-    if (isCover) { pre(2); pre(3); }
+    if (isSpread) { pre(leftPage + 1); pre(leftPage - 1); }
+    else if (isCover) { pre(2); pre(3); }
     else { pre(leftPage + 2); pre(leftPage + 3); pre(leftPage - 2); pre(leftPage - 1); }
-  }, [leftPage, total, book.id]);
+  }, [leftPage, total, book.id, isSpread]);
 
   const navigate = useCallback((target: number) => {
     if (flip.active || target < 1 || target > total) return;
@@ -70,10 +73,10 @@ export function BookReader({ book }: Props) {
 
   useEffect(() => () => { if (timerRef.current) clearTimeout(timerRef.current); }, []);
 
-  const prev = useCallback(() => navigate(leftPage === 2 ? 1 : leftPage - 2), [navigate, leftPage]);
-  const next = useCallback(() => navigate(isCover ? 2 : leftPage + 2), [navigate, isCover, leftPage]);
+  const prev = useCallback(() => navigate(isSpread ? leftPage - 1 : (leftPage === 2 ? 1 : leftPage - 2)), [navigate, leftPage, isSpread]);
+  const next = useCallback(() => navigate(isSpread ? leftPage + 1 : (isCover ? 2 : leftPage + 2)), [navigate, isCover, leftPage, isSpread]);
   const prevDisabled = leftPage <= 1;
-  const nextDisabled = !isCover && leftPage + 2 > total;
+  const nextDisabled = isSpread ? leftPage >= total : (!isCover && leftPage + 2 > total);
 
   useEffect(() => {
     const h = (e: KeyboardEvent) => {
@@ -87,9 +90,9 @@ export function BookReader({ book }: Props) {
   // ── Render helpers ────────────────────────────────────────
 
   function spreadContent(lp: number, cover: boolean) {
-    if (cover) return (
+    if (isSpread || cover) return (
       <div className="reader-cover-single">
-        <img src={pageUrl(1)} alt={book.title} className="reader-cover-img" draggable={false} />
+        <img src={pageUrl(lp)} alt={cover ? book.title : `Страница ${lp}`} className="reader-cover-img" draggable={false} />
       </div>
     );
     const rp = lp + 1;
@@ -103,6 +106,16 @@ export function BookReader({ book }: Props) {
 
   function outgoingOverlay() {
     const { dir, prevLeft: pl, prevCover: pc } = flip;
+
+    if (isSpread) {
+      // Spread mode: fade out the whole spread
+      return (
+        <div className="reader-cover-single anim-fade">
+          <img src={pageUrl(pl)} className="reader-cover-img" draggable={false} />
+        </div>
+      );
+    }
+
     // What images were in the left and right halves of the outgoing spread?
     const leftImg  = pc ? null : pageUrl(pl);
     const rightImg = pc ? pageUrl(1) : (pl + 1 <= total ? pageUrl(pl + 1) : null);
@@ -182,7 +195,7 @@ export function BookReader({ book }: Props) {
         <div className="reader-dots" aria-hidden="true">
           {Array.from({ length: Math.min(totalViews, 9) }, (_, i) => {
             const vIdx = totalViews <= 9 ? i + 1 : Math.round((i / 8) * (totalViews - 1)) + 1;
-            const dot = vIdx === 1 ? 1 : (vIdx - 1) * 2;
+            const dot = isSpread ? vIdx : (vIdx === 1 ? 1 : (vIdx - 1) * 2);
             return (
               <button key={i}
                 className={`reader-dot${currentView === vIdx ? " active" : ""}`}
