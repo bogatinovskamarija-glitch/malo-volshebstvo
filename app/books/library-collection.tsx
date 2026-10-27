@@ -71,6 +71,7 @@ export function LibraryCollection() {
     return pool.filter(b =>
       b.title.toLowerCase().includes(q) ||
       b.goal?.toLowerCase().includes(q) ||
+      b.detailEn?.toLowerCase().includes(q) ||
       b.tags?.some(t => t.toLowerCase().includes(q))
     );
   };
