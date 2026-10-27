@@ -1,8 +1,8 @@
 "use client";
 import { useState } from "react";
-import { ArrowRight, BookOpen } from "lucide-react";
+import { ArrowRight, BookOpen, X } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { books, ageGroups, type Book } from "@/lib/books";
+import { books, ageGroups, allTags, type Book } from "@/lib/books";
 import { useLang } from "@/lib/LanguageContext";
 
 function Cover({ book }: { book: Book }) {
@@ -11,7 +11,7 @@ function Cover({ book }: { book: Book }) {
       <img
         src={`/books/${book.id}/page-01.jpeg`}
         alt={book.title}
-        className="book-cover-photo"
+        className={`book-cover-photo${book.ageGroup === "0-2" ? " spread-cover" : ""}`}
       />
       <div className="book-cover-title" aria-hidden="true">
         <span>{book.title}</span>
@@ -46,8 +46,41 @@ function BookCard({ book }: { book: Book }) {
   );
 }
 
+function TagFilter({ available, selected, onToggle, onClear }: {
+  available: readonly string[];
+  selected: string[];
+  onToggle: (tag: string) => void;
+  onClear: () => void;
+}) {
+  if (available.length === 0) return null;
+  return (
+    <div className="tag-filter-bar" role="group" aria-label="Филтрирај по тема">
+      {selected.length > 0 && (
+        <button className="tag-filter-reset" onClick={onClear} aria-label="Прикажи ги сите книги">
+          Сите теми
+          <X size={11} strokeWidth={2.5} />
+        </button>
+      )}
+      {available.map(tag => {
+        const active = selected.includes(tag);
+        return (
+          <button
+            key={tag}
+            className={`tag-filter-chip${active ? " active" : ""}`}
+            onClick={() => onToggle(tag)}
+            aria-pressed={active}
+          >
+            {tag}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
 export function LibraryCollection() {
   const [activeAge, setActiveAge] = useState("all");
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const { t, lang } = useLang();
 
   const tabLabel: Record<string, string> = {
@@ -56,6 +89,18 @@ export function LibraryCollection() {
     "2-5": t.library.tabs["2-5"],
     "6-10": t.library.tabs["6-10"],
   };
+
+  const handleAgeChange = (age: string) => {
+    setActiveAge(age);
+    setSelectedTags([]);
+  };
+
+  const toggleTag = (tag: string) => {
+    setSelectedTags(prev => prev.includes(tag) ? prev.filter(t => t !== tag) : [...prev, tag]);
+  };
+
+  const ageBooks = (ageId: string) => ageId === "all" ? books : books.filter(b => b.ageGroup === ageId);
+  const availableTags = allTags.filter(tag => ageBooks(activeAge).some(b => b.tags?.includes(tag)));
 
   return (
     <>
@@ -67,7 +112,7 @@ export function LibraryCollection() {
         <p>{t.library.subtitle}</p>
       </header>
       <section className="collection" aria-label="Книги според возраст">
-        <Tabs value={activeAge} onValueChange={setActiveAge} className="age-tabs">
+        <Tabs value={activeAge} onValueChange={handleAgeChange} className="age-tabs">
           <TabsList className="age-list" aria-label="Возраст на читателот">
             {ageGroups.map((age) => (
               <TabsTrigger key={age.id} value={age.id}>
@@ -76,11 +121,18 @@ export function LibraryCollection() {
             ))}
           </TabsList>
 
+          <TagFilter
+            available={availableTags}
+            selected={selectedTags}
+            onToggle={toggleTag}
+            onClear={() => setSelectedTags([])}
+          />
+
           {ageGroups.map((age) => {
-            const filtered =
-              age.id === "all"
-                ? books
-                : books.filter((b) => b.ageGroup === age.id);
+            const base = ageBooks(age.id);
+            const filtered = selectedTags.length === 0
+              ? base
+              : base.filter(b => selectedTags.some(t => b.tags?.includes(t)));
 
             return (
               <TabsContent key={age.id} value={age.id} className="book-panel">
