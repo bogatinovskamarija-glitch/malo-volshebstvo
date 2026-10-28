@@ -121,9 +121,9 @@ main{flex:1;position:relative;z-index:1}.home-page{text-align:center;display:fle
 @keyframes wt3{0%,100%{opacity:0;transform:scale(1)}30%{opacity:.95;transform:scale(1.7)}65%{opacity:.55}}
 
 /* ── Book-open animation overlay ─────────────────────────── */
-.book-open-anim{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;background:#000;cursor:pointer;animation:boa-in .35s ease both}
+.book-open-anim{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;background:rgba(250,246,236,.45);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);cursor:pointer;animation:boa-in .4s ease both}
 .book-open-anim--out{animation:boa-out .6s ease both}
-.book-open-anim__video{width:100%;height:100%;object-fit:cover}
+.book-open-anim__video{width:min(420px,80vw);height:auto;border-radius:28px;mix-blend-mode:multiply;filter:drop-shadow(0 12px 40px rgba(80,50,20,.22))}
 @keyframes boa-in{from{opacity:0}to{opacity:1}}
 @keyframes boa-out{from{opacity:1}to{opacity:0}}
 
