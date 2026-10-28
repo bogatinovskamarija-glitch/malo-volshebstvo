@@ -46,10 +46,12 @@ export function LikeButton({ bookId, className = "" }: Props) {
     next ? set.add(bookId) : set.delete(bookId);
     setLiked(set);
 
-    await supabase.rpc("toggle_book_like", {
-      p_book_id: bookId,
-      p_delta: next ? 1 : -1,
-    });
+    if (supabase) {
+      await supabase.rpc("toggle_book_like", {
+        p_book_id: bookId,
+        p_delta: next ? 1 : -1,
+      });
+    }
 
     setBusy(false);
   };
