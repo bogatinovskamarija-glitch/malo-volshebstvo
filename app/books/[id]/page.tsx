@@ -6,7 +6,7 @@ export default async function BookPage({ params }: { params: Promise<{ id: strin
   const { id } = await params;
   const book = books.find((b) => b.id === id);
   if (!book) notFound();
-  return <BookReader book={book} />;
+  return <BookReader key={book.id} book={book} />;
 }
 
 export function generateStaticParams() {
