@@ -2,6 +2,8 @@
 import { useState, useCallback, useEffect, useRef } from "react";
 import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight, Sparkles } from "lucide-react";
 import type { Book } from "@/lib/books";
+import { LikeButton } from "@/components/LikeButton";
+import { useLang } from "@/lib/LanguageContext";
 
 interface Props { book: Book; }
 
@@ -35,7 +37,13 @@ interface FlipAnim {
   prevCover: boolean;
 }
 
+const COPYRIGHT = {
+  mk: "© 2026 Марија Богат · Сите права задржани · Неовластено копирање е забрането",
+  en: "© 2026 Maria Bogat · All rights reserved · Unauthorized copying is prohibited",
+};
+
 export function BookReader({ book }: Props) {
+  const { lang } = useLang();
   // leftPage=1 → cover alone; leftPage=2,4,6,… → two-page spread (page mode)
   // spread mode: each page is a full landscape spread (illustration left + text right)
   const isSpread = book.spread ?? (book.ageGroup === "0-2");
@@ -212,6 +220,10 @@ export function BookReader({ book }: Props) {
           <ArrowRight size={18} strokeWidth={1.4} />
         </button>
       </nav>
+      <div className="reader-footer">
+        <LikeButton bookId={book.id} />
+        <p className="reader-copyright">{COPYRIGHT[lang as keyof typeof COPYRIGHT] ?? COPYRIGHT.mk}</p>
+      </div>
     </div>
   );
 }

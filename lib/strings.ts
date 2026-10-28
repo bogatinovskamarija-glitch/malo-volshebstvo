@@ -44,6 +44,7 @@ export const strings = {
     footer: {
       love: "Со љубов, за малите читатели.",
       copyright: "© 2026 Марија Богат. Сите права задржани.",
+      disclaimer: "Неовластено копирање и дистрибуција е строго забрането.",
     },
   },
   en: {
@@ -91,6 +92,7 @@ export const strings = {
     footer: {
       love: "With love, for little readers.",
       copyright: "© 2026 Maria Bogat. All rights reserved.",
+      disclaimer: "Unauthorized copying and distribution is strictly prohibited.",
     },
   },
 };

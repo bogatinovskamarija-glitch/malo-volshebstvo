@@ -66,7 +66,7 @@ function Shell({ children }: { children: React.ReactNode }) {
           {paused ? <Play size={14} /> : <Pause size={14} />}
         </button>
       </footer>
-      <p className="site-copyright">{t.footer.copyright}</p>
+      <p className="site-copyright">{t.footer.copyright} {t.footer.disclaimer}</p>
     </div>
   );
 }

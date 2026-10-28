@@ -3,6 +3,7 @@ import { useState } from "react";
 import { ArrowRight, BookOpen, Search, X } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { books, ageGroups, type Book } from "@/lib/books";
+import { LikeButton } from "@/components/LikeButton";
 import { useLang } from "@/lib/LanguageContext";
 
 function Cover({ book }: { book: Book }) {
@@ -13,6 +14,7 @@ function Cover({ book }: { book: Book }) {
         alt={book.title}
         className={`book-cover-photo${book.ageGroup === "0-2" ? " spread-cover" : ""}`}
       />
+      <LikeButton bookId={book.id} />
       <div className="book-cover-title" aria-hidden="true">
         <span>{book.title}</span>
       </div>
