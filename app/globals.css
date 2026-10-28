@@ -121,11 +121,11 @@ main{flex:1;position:relative;z-index:1}.home-page{text-align:center;display:fle
 @keyframes wt3{0%,100%{opacity:0;transform:scale(1)}30%{opacity:.95;transform:scale(1.7)}65%{opacity:.55}}
 
 /* ── Book-open animation overlay ─────────────────────────── */
-.book-open-anim{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;background:rgba(250,246,236,.45);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);cursor:pointer;animation:boa-in .4s ease both}
-.book-open-anim--out{animation:boa-out .6s ease both}
-.book-open-anim__video{width:min(420px,80vw);height:auto;border-radius:28px;mix-blend-mode:multiply;filter:drop-shadow(0 12px 40px rgba(80,50,20,.22))}
-@keyframes boa-in{from{opacity:0}to{opacity:1}}
-@keyframes boa-out{from{opacity:1}to{opacity:0}}
+.book-open-anim{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;background:rgba(18,10,2,.28);backdrop-filter:blur(22px) brightness(.6);-webkit-backdrop-filter:blur(22px) brightness(.6);cursor:pointer;animation:boa-in .55s ease both}
+.book-open-anim--out{animation:boa-out .95s ease forwards}
+.book-open-anim__video{max-height:88vh;max-width:92vw;width:auto;height:auto;object-fit:contain;-webkit-mask-image:radial-gradient(ellipse 68% 72% at 50% 52%,#000 28%,rgba(0,0,0,.6) 52%,transparent 74%);mask-image:radial-gradient(ellipse 68% 72% at 50% 52%,#000 28%,rgba(0,0,0,.6) 52%,transparent 74%)}
+@keyframes boa-in{from{opacity:0;filter:blur(12px)}to{opacity:1;filter:blur(0)}}
+@keyframes boa-out{from{opacity:1;filter:blur(0)}to{opacity:0;filter:blur(28px)}}
 
 /* ── Reduced motion overrides ────────────────────────────── */
-@media(prefers-reduced-motion:reduce){.anim-fold-fwd,.anim-fold-bwd{animation:none;transform:none;filter:none}.anim-fade{animation:none;opacity:0}.spark-particle{animation:none;opacity:0}.reader-mote{animation:none}.wstar{animation:none}.book-open-anim{animation:none}.book-open-anim--out{animation:none;opacity:0}}
+@media(prefers-reduced-motion:reduce){.anim-fold-fwd,.anim-fold-bwd{animation:none;transform:none;filter:none}.anim-fade{animation:none;opacity:0}.spark-particle{animation:none;opacity:0}.reader-mote{animation:none}.wstar{animation:none}.book-open-anim{animation:none;filter:none}.book-open-anim--out{animation:none;opacity:0;filter:none}}

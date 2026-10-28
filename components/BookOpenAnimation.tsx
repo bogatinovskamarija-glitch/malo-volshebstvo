@@ -11,7 +11,7 @@ export function BookOpenAnimation({ onDone }: Props) {
 
   const dismiss = () => {
     setFading(true);
-    setTimeout(onDone, 600);
+    setTimeout(onDone, 950);
   };
 
   useEffect(() => {
