@@ -120,5 +120,12 @@ main{flex:1;position:relative;z-index:1}.home-page{text-align:center;display:fle
 @keyframes wt2{0%,100%{opacity:0;transform:scale(1)}40%{opacity:.75;transform:scale(1.5)}70%{opacity:.4}}
 @keyframes wt3{0%,100%{opacity:0;transform:scale(1)}30%{opacity:.95;transform:scale(1.7)}65%{opacity:.55}}
 
+/* ── Book-open animation overlay ─────────────────────────── */
+.book-open-anim{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;background:#000;cursor:pointer;animation:boa-in .35s ease both}
+.book-open-anim--out{animation:boa-out .6s ease both}
+.book-open-anim__video{width:100%;height:100%;object-fit:cover}
+@keyframes boa-in{from{opacity:0}to{opacity:1}}
+@keyframes boa-out{from{opacity:1}to{opacity:0}}
+
 /* ── Reduced motion overrides ────────────────────────────── */
-@media(prefers-reduced-motion:reduce){.anim-fold-fwd,.anim-fold-bwd{animation:none;transform:none;filter:none}.anim-fade{animation:none;opacity:0}.spark-particle{animation:none;opacity:0}.reader-mote{animation:none}.wstar{animation:none}}
+@media(prefers-reduced-motion:reduce){.anim-fold-fwd,.anim-fold-bwd{animation:none;transform:none;filter:none}.anim-fade{animation:none;opacity:0}.spark-particle{animation:none;opacity:0}.reader-mote{animation:none}.wstar{animation:none}.book-open-anim{animation:none}.book-open-anim--out{animation:none;opacity:0}}

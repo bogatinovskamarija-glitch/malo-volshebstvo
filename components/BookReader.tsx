@@ -3,6 +3,7 @@ import { useState, useCallback, useEffect, useRef } from "react";
 import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight, Sparkles } from "lucide-react";
 import type { Book } from "@/lib/books";
 import { LikeButton } from "@/components/LikeButton";
+import { BookOpenAnimation } from "@/components/BookOpenAnimation";
 import { useLang } from "@/lib/LanguageContext";
 
 interface Props { book: Book; }
@@ -44,6 +45,7 @@ const COPYRIGHT = {
 
 export function BookReader({ book }: Props) {
   const { lang } = useLang();
+  const [showAnim, setShowAnim] = useState(true);
   // leftPage=1 → cover alone; leftPage=2,4,6,… → two-page spread (page mode)
   // spread mode: each page is a full landscape spread (illustration left + text right)
   const isSpread = book.spread ?? (book.ageGroup === "0-2");
@@ -224,6 +226,7 @@ export function BookReader({ book }: Props) {
         <LikeButton bookId={book.id} />
         <p className="reader-copyright">{COPYRIGHT[lang as keyof typeof COPYRIGHT] ?? COPYRIGHT.mk}</p>
       </div>
+      {showAnim && <BookOpenAnimation onDone={() => setShowAnim(false)} />}
     </div>
   );
 }
