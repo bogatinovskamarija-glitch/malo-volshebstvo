@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { ArrowRight, BookOpen, Search, X } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { books, ageGroups, type Book } from "@/lib/books";
+import { books, ageGroups, RECENT_COUNT, type Book } from "@/lib/books";
 import { LikeButton } from "@/components/LikeButton";
 import { useLang } from "@/lib/LanguageContext";
 
@@ -55,6 +55,7 @@ export function LibraryCollection() {
 
   const tabLabel: Record<string, string> = {
     all: t.library.tabs.all,
+    new: t.library.tabs.new,
     "0-2": t.library.tabs["0-2"],
     "2-5": t.library.tabs["2-5"],
     "6-10": t.library.tabs["6-10"],
@@ -65,7 +66,11 @@ export function LibraryCollection() {
     setQuery("");
   };
 
-  const ageBooks = (ageId: string) => ageId === "all" ? books : books.filter(b => b.ageGroup === ageId);
+  const ageBooks = (ageId: string) => {
+    if (ageId === "all") return books;
+    if (ageId === "new") return books.slice(-RECENT_COUNT);
+    return books.filter(b => b.ageGroup === ageId);
+  };
 
   const applyQuery = (pool: Book[]) => {
     const q = query.trim().toLowerCase();

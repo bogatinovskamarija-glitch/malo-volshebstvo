@@ -1018,8 +1018,11 @@ export const books: Book[] = [
   },
 ];
 
+export const RECENT_COUNT = 12;
+
 export const ageGroups = [
   { id: "all" },
+  { id: "new" },
   { id: "0-2" },
   { id: "2-5" },
   { id: "6-10" },

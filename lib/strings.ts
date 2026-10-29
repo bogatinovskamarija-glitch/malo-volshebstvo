@@ -17,6 +17,7 @@ export const strings = {
       subtitle: "Изберете возраст. Пронајдете ја следната омилена приказна.",
       tabs: {
         all: "Сите приказни",
+        new: "Нови ✦",
         "0-2": "0–2 години",
         "2-5": "2–5 години",
         "6-10": "6–10 години",
@@ -65,6 +66,7 @@ export const strings = {
       subtitle: "Choose an age. Find your next favourite story.",
       tabs: {
         all: "All stories",
+        new: "New ✦",
         "0-2": "Ages 0–2",
         "2-5": "Ages 2–5",
         "6-10": "Ages 6–10",
