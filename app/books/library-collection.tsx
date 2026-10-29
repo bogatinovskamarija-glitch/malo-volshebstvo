@@ -12,7 +12,7 @@ function Cover({ book }: { book: Book }) {
       <img
         src={`/books/${book.id}/page-01.jpeg`}
         alt={book.title}
-        className={`book-cover-photo${book.ageGroup === "0-2" ? " spread-cover" : ""}`}
+        className={`book-cover-photo${(book.spread ?? book.ageGroup === "0-2") ? " spread-cover" : ""}`}
       />
       <LikeButton bookId={book.id} />
       <div className="book-cover-title" aria-hidden="true">
