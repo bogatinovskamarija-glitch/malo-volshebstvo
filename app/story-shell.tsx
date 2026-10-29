@@ -60,6 +60,10 @@ function Shell({ children }: { children: React.ReactNode }) {
       <footer className="site-footer">
         <span>{t.footer.love}</span>
         <span className="footer-flourish" aria-hidden="true">✧</span>
+        <a href="mailto:bogatinovskamarija@gmail.com" className="footer-contact">
+          {lang === "mk" ? "Контакт" : "Contact"}
+        </a>
+        <span className="footer-flourish" aria-hidden="true">✧</span>
         <button className="motion-button" onClick={() => setPaused(!paused)}
           aria-label={paused ? t.playAnim : t.pauseAnim} aria-pressed={paused}
           title={paused ? t.playAnim : t.pauseAnim}>
