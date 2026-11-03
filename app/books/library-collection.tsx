@@ -3,6 +3,7 @@ import { useState } from "react";
 import { ArrowRight, BookOpen, Search, X } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { books, ageGroups, RECENT_COUNT, type Book } from "@/lib/books";
+import { BOOKS_URL } from "@/lib/bookUrl";
 import { LikeButton } from "@/components/LikeButton";
 import { useLang } from "@/lib/LanguageContext";
 
@@ -10,7 +11,7 @@ function Cover({ book }: { book: Book }) {
   return (
     <div className="book-cover">
       <img
-        src={`/books/${book.id}/page-01.jpeg`}
+        src={`${BOOKS_URL}/${book.id}/page-01.jpeg`}
         alt={book.title}
         className={`book-cover-photo${(book.spread ?? book.ageGroup === "0-2") ? " spread-cover" : ""}`}
       />

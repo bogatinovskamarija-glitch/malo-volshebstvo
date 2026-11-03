@@ -47,3 +47,6 @@ next-env.d.ts
 
 # Large book PDFs — host on Supabase Storage instead
 *.pdf
+
+# Book images and PDFs — served from Supabase Storage
+/public/books/
