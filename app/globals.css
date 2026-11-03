@@ -62,6 +62,7 @@ main{flex:1;position:relative;z-index:1}.home-page{text-align:center;display:fle
 .heading-main em{display:inline}
 /* EN mode text spans */
 .drop-letter-heading{font-family:var(--cursive);font-style:normal;font-size:1.65em;color:var(--gold);line-height:.85;margin-right:.03em;display:inline-block;vertical-align:-.06em}
+.about-letter .drop-letter-heading{font-family:'Cormorant Garamond',var(--serif);font-style:italic;font-weight:700;font-size:1.8em}
 .drop-letter-float{font-family:var(--cursive);font-style:normal;font-size:3.8em;color:var(--gold);float:left;line-height:.7;margin-top:.06em;margin-right:.12em;margin-bottom:.06em}
 
 /* ── Signature drop letter ───────────────────────────────── */
