@@ -61,7 +61,7 @@ export function BookReader({ book }: Props) {
   const totalViews = isSpread ? total : 1 + Math.ceil((total - 1) / 2);
   const currentView = isSpread ? leftPage : (isCover ? 1 : 1 + Math.ceil((leftPage - 1) / 2));
 
-  const pageUrl = (n: number) => `${BOOKS_URL}/${book.id}/page-${String(n).padStart(2, "0")}.jpeg`;
+  const pageUrl = (n: number) => `${BOOKS_URL}/${book.id}/page-${String(n).padStart(2, "0")}.webp`;
 
   // Preload adjacent pages
   useEffect(() => {
