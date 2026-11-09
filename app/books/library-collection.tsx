@@ -11,7 +11,7 @@ function Cover({ book }: { book: Book }) {
   return (
     <div className="book-cover">
       <img
-        src={`${BOOKS_URL}/${book.id}/page-01.jpeg`}
+        src={`${BOOKS_URL}/${book.id}/page-01.webp`}
         alt={book.title}
         className={`book-cover-photo${(book.spread ?? book.ageGroup === "0-2") ? " spread-cover" : ""}`}
       />
